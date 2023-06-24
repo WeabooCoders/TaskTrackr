@@ -2,9 +2,13 @@ package handlers
 
 import (
 	"net/http"
+	"os"
+	"time"
+
 	"github.com/AvinFajarF/initializers"
 	"github.com/AvinFajarF/model"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -21,7 +25,7 @@ func SignUp(c *gin.Context) {
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "error",
-			"error": err.Error(),
+			"error":   err.Error(),
 			"massage": "silahkan di cek kembali",
 		})
 		return
@@ -55,10 +59,9 @@ func SignUp(c *gin.Context) {
 	}
 }
 
-
-func SignIn(c *gin.Context){
-	var userRequest struct{
-		Email string `json:"email"`
+func SignIn(c *gin.Context) {
+	var userRequest struct {
+		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
 
@@ -66,9 +69,56 @@ func SignIn(c *gin.Context){
 	if err := c.ShouldBindJSON(&userRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "error",
-			"error": err.Error(),
+			"error":   err.Error(),
 			"massage": "silahkan di cek kembali",
 		})
 		return
 	}
+
+	var user model.User
+	initializers.DB.First(&user, "email = ?", userRequest.Email)
+
+	if user.ID == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "error",
+			"massage": "silahkan masukan email dan username yang benar",
+		})
+		return
+	}
+
+	// hash cek
+
+	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userRequest.Password))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "error",
+			"massage": "silahkan masukan email dan username yang benar",
+		})
+		return
+	}
+
+	// membuat token
+
+	key := []byte(os.Getenv("SECRET"))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": user.ID,
+		"exp": time.Now().Add(time.Hour * 24).Unix(),
+	})
+
+	tokenString, err := token.SignedString(key)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "error",
+			"massage": "error membuat token",
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"status": "success",
+		"token":   tokenString,
+	})
+
 }

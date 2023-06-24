@@ -22,6 +22,7 @@ func main() {
 	v1 := router.Group("/v1")
 
 	v1.POST("/signup", handlers.SignUp)
+	v1.POST("/sigin", handlers.SignIn)
 
 	router.Run()
 }
