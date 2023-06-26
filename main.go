@@ -5,6 +5,7 @@ import (
 
 	"github.com/AvinFajarF/handlers"
 	"github.com/AvinFajarF/initializers"
+	"github.com/AvinFajarF/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,6 +24,7 @@ func main() {
 
 	v1.POST("/signup", handlers.SignUp)
 	v1.POST("/sigin", handlers.SignIn)
+	v1.GET("/coba",middleware.AuthMiddleware , handlers.Coba)
 
-	router.Run()
+	router.Run(":8081")
 }

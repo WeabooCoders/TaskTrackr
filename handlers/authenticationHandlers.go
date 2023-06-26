@@ -116,9 +116,22 @@ func SignIn(c *gin.Context) {
 		return
 	}
 
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.Header("Authorization", tokenString)
+
 	c.JSON(http.StatusCreated, gin.H{
 		"status": "success",
 		"token":   tokenString,
 	})
 
+}
+
+func Coba (c *gin.Context) {
+
+	user, _ := c.Get("user")
+
+	c.JSON(http.StatusOK, gin.H{
+        "status": "success",
+		"data": user,
+    })
 }
