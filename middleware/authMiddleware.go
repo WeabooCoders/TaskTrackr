@@ -51,7 +51,6 @@
 
 		} else {
 			c.AbortWithStatus(http.StatusUnauthorized)
-			fmt.Println(err)
 		}
 
 
