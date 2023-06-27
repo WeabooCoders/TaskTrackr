@@ -10,19 +10,32 @@ import (
 )
 
 
+func GetTaskAllById(c *gin.Context) {
+	id, _ := c.Get("id")
+
+	var tasks []model.Task
+
+	// Menggunakan metode Find untuk mengambil data task berdasarkan user_id
+	result := initializers.DB.Where("user_id = ?", id).Find(&tasks)
+	
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "error",
+			"message": "gagal mendapatkan data task",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status": "success",
+		"data":   tasks,
+	})
+}
 
 func CreateTask(c *gin.Context){
 
+	// mendapatkan id dari user yang login
 	id, _ := c.Get("id")
-	
-
-    // Mengkonversi id menjadi uint
-    // var userID uint
-    // if idInt, ok := id.(int64); ok {
-    //     userID = uint(idInt)
-    // }
-
-
 	
 	var task model.Task
 
@@ -40,8 +53,7 @@ func CreateTask(c *gin.Context){
 		})
 	}
 
-
-
+	// mengirim data dari request user ke database
 	result := initializers.DB.Create(&task)
 
 		// pengecekan error
