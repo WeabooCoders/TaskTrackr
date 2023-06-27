@@ -127,11 +127,11 @@ func SignIn(c *gin.Context) {
 }
 
 func Coba (c *gin.Context) {
+	user, _ := c.Get("id")
 
-	user, _ := c.Get("user")
-
-	c.JSON(http.StatusOK, gin.H{
+    // Mendapatkan ID dari user
+    c.JSON(http.StatusOK, gin.H{
         "status": "success",
-		"data": user,
+        "data":   user,
     })
 }

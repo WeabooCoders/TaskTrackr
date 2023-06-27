@@ -46,6 +46,7 @@
 			}
 
 			c.Set("user", user)
+			c.Set("id", user.ID)
 
 			c.Next()
 
