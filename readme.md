@@ -19,7 +19,7 @@ note: jangan lupa untuk membuat database terlebih dahulu sebelum menjalankan
 #### signup
 
 ```http
-  POST /v1/signup
+  POST api/v1/signup
 ```
 
 | body | Type     | Description                |
@@ -28,4 +28,46 @@ note: jangan lupa untuk membuat database terlebih dahulu sebelum menjalankan
  `password` | `string` | **Required**  
   `email` | `email` | **Required** |
 
+
+#### sigin
+
+```http
+  POST api/v1/sigin
+```
+
+| body | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `email` | `email` | **Required**
+ `password` | `string` | **Required**  
+
+
+#### create task
+
+```http
+  POST api/v1/task
+```
+
+###### tambahkan header Authorization dan nilai nya adalah token <br>
+
+
+| body | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `title` | `string` | **Required**
+ `description` | `string` | **Required**  
+ `status` | `string` | **Required**  
+
+#### Get task
+
+```http
+  GET api/v1/task
+```
+
+###### tambahkan header Authorization dan nilai nya adalah token <br>
+
+
+
+## Features
+
+- signup and sigin
+- create task and get task
 
