@@ -28,6 +28,7 @@ func main() {
 	v1.POST("/task",middleware.AuthMiddleware , handlers.CreateTask)
 	v1.GET("/task",middleware.AuthMiddleware , handlers.GetTaskAllById)
 	v1.GET("/task/:title",middleware.AuthMiddleware , handlers.FindTaskByTitle)
+	v1.PUT("/task/update/:title",middleware.AuthMiddleware , handlers.UpdateTaskByTitle)
 
 	router.Run(":8081")
 }

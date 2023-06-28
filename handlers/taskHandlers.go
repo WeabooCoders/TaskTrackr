@@ -92,3 +92,44 @@ func FindTaskByTitle(c *gin.Context){
 		"data": task,
 	})
 }
+
+
+func UpdateTaskByTitle(c *gin.Context){
+
+	var task model.Task
+
+	// mendapatkan request dari user
+	err := c.ShouldBindJSON(&task)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "error",
+            "message": "error ketika mengambil data dari request",
+		})
+	}
+
+	// mendapatkan parameter task
+	titleParam := c.Param("title")
+
+	result := initializers.DB.Preload("User").Where("title = ?", titleParam).Updates(&task)
+
+ // Menangani hasil pembaruan
+ if result.Error != nil {
+	// Tanggapan jika terjadi kesalahan pembaruan
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"status":  "error",
+		"message": "error ketika memperbarui tugas",
+	})
+	return
+}
+
+// Tanggapan jika pembaruan berhasil
+c.JSON(http.StatusOK, gin.H{
+	"status":  "success",
+	"message": "tugas berhasil diperbarui",
+})
+
+}
+
+
+
