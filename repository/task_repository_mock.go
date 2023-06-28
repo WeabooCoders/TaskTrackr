@@ -9,7 +9,7 @@ type TaskRepositoryMock struct {
 	Mock mock.Mock
 }
 
-func (repo TaskRepositoryMock.Mock) GetById(id string) *entity.Task {
+func (repo TaskRepositoryMock.Mock) FindById(id string) *entity.Task {
 	args := repo.Mock.Called(id)
 	if args.Get(0) == nil {
 		return nil
