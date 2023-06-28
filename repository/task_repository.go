@@ -5,5 +5,5 @@ import (
 )
 
 type TaskRepository interface {
-	GetById(string) *entity.Task
+	FindById(string) *entity.Task
 }
