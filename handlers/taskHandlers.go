@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/AvinFajarF/initializers"
@@ -16,7 +15,7 @@ func GetTaskAllById(c *gin.Context) {
 	var tasks []model.Task
 
 	// Menggunakan metode Find untuk mengambil data task berdasarkan user_id
-	result := initializers.DB.Where("user_id = ?", id).Find(&tasks)
+	result := initializers.DB.Preload("User").Where("user_id = ?", id).Find(&tasks)
 	
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -40,8 +39,6 @@ func CreateTask(c *gin.Context){
 	var task model.Task
 
 	task.User.ID = id.(uint)
-	fmt.Println("coba : ", task)
-
 
 	err := c.ShouldBindJSON(&task)
 
@@ -69,4 +66,29 @@ func CreateTask(c *gin.Context){
 			})
 		}
 
+}
+
+func FindTaskByTitle(c *gin.Context){
+
+	var task model.Task
+
+	// mendapatkan parameter task
+	titleParam := c.Param("title")
+	
+
+	// mencari data title by title
+	result := initializers.DB.Preload("User").Where("title = ?", titleParam).Find(&task)
+
+	if result.Error!= nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": "error",
+			"message": "gagal mendapatkan data task",
+			"error": result.Error,
+		})
+	}
+
+	c.JSON(http.StatusBadRequest, gin.H{
+		"status": "success",
+		"data": task,
+	})
 }

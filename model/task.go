@@ -8,5 +8,5 @@ type Task struct {
 	Description string
 	Status      string
 	UserID      uint `gorm:"foreignKey:UserID"`
-	User        User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	User        User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"user"`
 }

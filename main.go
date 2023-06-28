@@ -27,6 +27,7 @@ func main() {
 	v1.GET("/coba",middleware.AuthMiddleware , handlers.Coba)
 	v1.POST("/task",middleware.AuthMiddleware , handlers.CreateTask)
 	v1.GET("/task",middleware.AuthMiddleware , handlers.GetTaskAllById)
+	v1.GET("/task/:title",middleware.AuthMiddleware , handlers.FindTaskByTitle)
 
 	router.Run(":8081")
 }

@@ -17,7 +17,6 @@
 		// mengambil cookie
 		tokenString := c.GetHeader("Authorization")
 
-		fmt.Println(tokenString)
 
 		// cek token
 
