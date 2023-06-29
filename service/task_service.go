@@ -2,8 +2,9 @@ package service
 
 import (
 	"errors"
-	"Sistem-Manajemen-Tugas/entity"
-	"Sistem-Manajemen-Tugas/repository"
+
+	"github.com/AvinFajarF/entity"
+	"github.com/AvinFajarF/repository"
 )
 
 type TaskService struct {

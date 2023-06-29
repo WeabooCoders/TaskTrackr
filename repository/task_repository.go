@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"Sistem-Manajemen-Tugas/entity"
+	"github.com/AvinFajarF/entity"
 )
 
 type TaskRepository interface {
