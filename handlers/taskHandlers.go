@@ -6,6 +6,7 @@ import (
 	"github.com/AvinFajarF/initializers"
 	"github.com/AvinFajarF/model"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 
@@ -35,8 +36,12 @@ func CreateTask(c *gin.Context){
 
 	// mendapatkan id dari user yang login
 	id, _ := c.Get("id")
+
+	uuid := uuid.NewString()
 	
 	var task model.Task
+
+	task.Uuid = uuid
 
 	task.User.ID = id.(uint)
 

@@ -1,11 +1,18 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
-	Username string `gorm:"uniqueIndex"`
-	Password string
-	Email    string `gorm:"uniqueIndex"`
-	Tasks    []Task
+	Uuid        string `gorm:"primaryKey"`
+	Username  string `gorm:"uniqueIndex"`
+	Password  string
+	Email     string `gorm:"uniqueIndex"`
+	Tasks     []Task
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

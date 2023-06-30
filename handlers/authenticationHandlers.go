@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -9,6 +10,7 @@ import (
 	"github.com/AvinFajarF/model"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -19,7 +21,13 @@ type User struct {
 }
 
 func SignUp(c *gin.Context) {
-	var user User
+	var user model.User
+
+	ids :=  uuid.New().String()
+
+	fmt.Println(ids)
+
+	user.Uuid = ids
 
 	// mengambil semua data user dari request postman dan juga pengecekan error
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -78,13 +86,6 @@ func SignIn(c *gin.Context) {
 	var user model.User
 	initializers.DB.First(&user, "email = ?", userRequest.Email)
 
-	if user.ID == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status":  "error",
-			"massage": "silahkan masukan email dan username yang benar",
-		})
-		return
-	}
 
 	// hash cek
 

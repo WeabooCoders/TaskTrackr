@@ -40,10 +40,6 @@
 			
 			initializers.DB.First(&user, claims["sub"])
 
-			if user.ID == 0 {
-				c.AbortWithStatus(http.StatusUnauthorized)
-			}
-
 			c.Set("user", user)
 			c.Set("id", user.ID)
 
